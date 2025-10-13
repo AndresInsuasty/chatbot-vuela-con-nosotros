@@ -1,0 +1,18 @@
+[MASTER]
+# Files or directories to be skipped. They should be base names, not paths.
+ignore=venv,.venv,__pycache__,build,dist
+
+# A regex matching files and directories that should be ignored. Use this to catch site-packages
+# or other installed package patterns if needed.
+ignore-patterns=.*site-packages.*
+
+# An init hook to remove common virtualenv/site-packages paths from sys.path so pylint
+# doesn't attempt to lint installed packages.
+init-hook='import sys, os; sys.path = [p for p in sys.path if not ("site-packages" in p or p.endswith(os.sep+"venv") or p.endswith(os.sep+".venv"))]'
+
+[MESSAGES CONTROL]
+# Disable too-fussy messages if desired; keep defaults for now.
+disable=
+
+[REPORTS]
+output-format = colorized
