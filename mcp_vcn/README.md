@@ -29,13 +29,13 @@
 flowchart LR
   A[Cliente MCP - sbx.py]
   B[Servicio MCP - main.py]
-  C[FastMCP - HTTP transport]
+  C[FastMCP - HTTP]
   D[SQLite DB - vuelos.db]
   E[inicial.sql]
 
-  A -->|HTTP / mcp API| C
+  A -->|HTTP mcp API| C
   C --> B
-  B -->|conectar_base_datos()| D
+  B -->|conectar_base_datos| D
   subgraph DBInit[Inicialización]
     E --> D
   end
