@@ -59,4 +59,3 @@ def consultar_opciones_vuelo(origen: str, destino: str, fecha: str) -> Dict[str,
     }
     return opciones_vuelo
 
-crear_base_datos_si_no_existe()
