@@ -25,23 +25,23 @@
 
  ## Diagrama de componentes (Mermaid)
 
- ```mermaid
- flowchart LR
-	 A[Cliente MCP / sbx.py]
-	 B[Servicio MCP (main.py)]
-	 C[FastMCP / HTTP transport]
-	 D[SQLite DB (vuelos.db)]
-	 E[inicial.sql]
+```mermaid
+flowchart LR
+  A[Cliente MCP - sbx.py]
+  B[Servicio MCP - main.py]
+  C[FastMCP - HTTP transport]
+  D[SQLite DB - vuelos.db]
+  E[inicial.sql]
 
-	 A -->|HTTP / mcp API| C
-	 C --> B
-	 B -->|conectar_base_datos()| D
-	 subgraph DBInit[Inicialización]
-		 E --> D
-	 end
+  A -->|HTTP / mcp API| C
+  C --> B
+  B -->|conectar_base_datos()| D
+  subgraph DBInit[Inicialización]
+    E --> D
+  end
 
-	 style DBInit fill:#f9f,stroke:#333,stroke-width:1px
- ```
+  style DBInit fill:#f9f,stroke:#333,stroke-width:1px
+```
 
  El diagrama muestra: el cliente (`sbx.py`) llama al endpoint MCP sobre HTTP; `main.py` recibe las llamadas y usa `utilidades.py` para acceder a la base de datos SQLite. Si `vuelos.db` no existe se ejecuta el script `inicial.sql` para poblarla.
 
