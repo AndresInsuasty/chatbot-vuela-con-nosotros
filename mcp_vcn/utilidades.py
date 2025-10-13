@@ -121,7 +121,7 @@ def consultar_opciones_vuelo(
                 "numero_vuelo": vuelo,
                 "hora": hora,
                 "estado": estado,
-                "asiento": asiento_disponible,
+                "numero_asiento": asiento_disponible,
             }
         )
 
@@ -129,13 +129,13 @@ def consultar_opciones_vuelo(
 
 
 def reservar_asiento(
-    numero_vuelo: str, numero_asiento: int, id_pasajero: str, conn: sqlite3.Connection
+    vuelo: str, numero_asiento: int, id_pasajero: str, conn: sqlite3.Connection
 ) -> Dict[str, Any]:
     """
     Reserva un asiento en un vuelo específico para un pasajero.
 
     Args:
-        numero_vuelo (str): El número del vuelo.
+        vuelo (str): El número del vuelo.
         numero_asiento (int): El número del asiento a reservar.
         id_pasajero (str): El ID del pasajero.
         conn (sqlite3.Connection): Conexión a la base de datos.
@@ -148,7 +148,7 @@ def reservar_asiento(
         # Verificar si el asiento ya está reservado
         cursor.execute(
             "SELECT COUNT(*) FROM reservas WHERE vuelo = ? AND numero_asiento = ?",
-            (numero_vuelo, numero_asiento),
+            (vuelo, numero_asiento),
         )
         if cursor.fetchone()[0] > 0:
             return {"error": "Asiento ya reservado"}
@@ -156,12 +156,12 @@ def reservar_asiento(
         # Realizar la reserva
         cursor.execute(
             "INSERT INTO reservas (vuelo, numero_asiento, id_pasajero) VALUES (?, ?, ?)",
-            (numero_vuelo, numero_asiento, id_pasajero),
+            (vuelo, numero_asiento, id_pasajero),
         )
         conn.commit()
         return {
-            "vuelo": numero_vuelo,
-            "asiento": numero_asiento,
+            "vuelo": vuelo,
+            "numero_asiento": numero_asiento,
             "id_pasajero": id_pasajero,
             "estado": "Reservado",
         }
@@ -172,13 +172,13 @@ def reservar_asiento(
 
 
 def eliminar_reserva(
-    numero_vuelo: str, numero_asiento: int, id_pasajero: str, conn: sqlite3.Connection
+    vuelo: str, numero_asiento: int, id_pasajero: str, conn: sqlite3.Connection
 ) -> Dict[str, Any]:
     """
     Elimina una reserva de asiento en un vuelo específico para un pasajero.
 
     Args:
-        numero_vuelo (str): El número del vuelo.
+        vuelo (str): El número del vuelo.
         numero_asiento (int): El número del asiento a eliminar.
         id_pasajero (str): El ID del pasajero.
         conn (sqlite3.Connection): Conexión a la base de datos.
@@ -191,7 +191,7 @@ def eliminar_reserva(
         # Verificar si la reserva existe
         cursor.execute(
             "SELECT COUNT(*) FROM reservas WHERE vuelo = ? AND numero_asiento = ? AND id_pasajero = ?",
-            (numero_vuelo, numero_asiento, id_pasajero),
+            (vuelo, numero_asiento, id_pasajero),
         )
         if cursor.fetchone()[0] == 0:
             return {"error": "Reserva no encontrada"}
@@ -199,11 +199,11 @@ def eliminar_reserva(
         # Eliminar la reserva
         cursor.execute(
             "DELETE FROM reservas WHERE vuelo = ? AND numero_asiento = ? AND id_pasajero = ?",
-            (numero_vuelo, numero_asiento, id_pasajero),
+            (vuelo, numero_asiento, id_pasajero),
         )
         conn.commit()
         return {
-            "vuelo": numero_vuelo,
+            "vuelo": vuelo,
             "asiento": numero_asiento,
             "id_pasajero": id_pasajero,
             "estado": "Reserva eliminada",
