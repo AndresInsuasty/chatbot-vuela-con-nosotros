@@ -11,8 +11,9 @@ ignore-patterns=.*site-packages.*
 init-hook='import sys, os; sys.path = [p for p in sys.path if not ("site-packages" in p or p.endswith(os.sep+"venv") or p.endswith(os.sep+".venv"))]'
 
 [MESSAGES CONTROL]
-# Disable too-fussy messages if desired; keep defaults for now.
-disable=
+# Disable specific messages. E0401 = import-error (ignore missing imports coming from virtualenvs
+# or from generated/packaged modules that pylint can't resolve).
+disable=E0401
 
 [REPORTS]
 output-format = colorized
