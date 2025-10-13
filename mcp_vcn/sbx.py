@@ -9,7 +9,7 @@ client = Client("http://localhost:8000/mcp")
 async def call_tool_estado_vuelo(vuelo: str):
     """Llama a la herramienta 'estado_vuelo' del servicio MCP."""
     async with client:
-        result = await client.call_tool("estado_vuelo", {"numero_vuelo": vuelo})
+        result = await client.call_tool("estado_vuelo", {"vuelo": vuelo})
         print(result)
 
 

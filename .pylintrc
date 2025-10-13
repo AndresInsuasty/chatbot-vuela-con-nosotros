@@ -1,14 +1,15 @@
 [MASTER]
 # Files or directories to be skipped. They should be base names, not paths.
-ignore=venv,.venv,__pycache__,build,dist
+# Base names to skip (directories or files)
+ignore=venv,.venv,__pycache__,build,dist,.venv
 
-# A regex matching files and directories that should be ignored. Use this to catch site-packages
-# or other installed package patterns if needed.
-ignore-patterns=.*site-packages.*
+# A regex matching files and directories that should be ignored. Use this to catch
+# site-packages, compiled files, caches and other non-essential artifacts.
+ignore-patterns=(.*site-packages.*|.*__pycache__.*|.*\.pyc$|.*\.pyo$)
 
 # An init hook to remove common virtualenv/site-packages paths from sys.path so pylint
 # doesn't attempt to lint installed packages.
-init-hook='import sys, os; sys.path = [p for p in sys.path if not ("site-packages" in p or p.endswith(os.sep+"venv") or p.endswith(os.sep+".venv"))]'
+init-hook='import sys, os; sys.path = [p for p in sys.path if not ("site-packages" in p or p.endswith(os.sep+"venv") or p.endswith(os.sep+".venv") or "__pycache__" in p)]'
 
 [MESSAGES CONTROL]
 # Disable specific messages. E0401 = import-error (ignore missing imports coming from virtualenvs

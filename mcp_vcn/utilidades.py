@@ -190,7 +190,11 @@ def eliminar_reserva(
     try:
         # Verificar si la reserva existe
         cursor.execute(
-            "SELECT COUNT(*) FROM reservas WHERE vuelo = ? AND numero_asiento = ? AND id_pasajero = ?",
+            """SELECT COUNT(*) 
+            FROM reservas 
+            WHERE vuelo = ? 
+            AND numero_asiento = ? 
+            AND id_pasajero = ?""",
             (vuelo, numero_asiento, id_pasajero),
         )
         if cursor.fetchone()[0] == 0:
