@@ -1,4 +1,5 @@
 """Utilidades para la gestión de vuelos y reservas."""
+
 from typing import Dict, Any
 import sqlite3
 import os
@@ -65,3 +66,63 @@ def consulta_estado_vuelo(
         "hora": hora,
     }
     return estado_vuelo
+
+
+def consultar_opciones_vuelo(
+    origen: str, destino: str, fecha: str, conn: sqlite3.Connection
+) -> Dict[str, Any]:
+    """
+    Consulta las opciones de vuelo disponibles entre un origen y un destino en una fecha dada.
+
+    Args:
+        origen (str): Ciudad de origen.
+        destino (str): Ciudad de destino.
+        fecha (str): Fecha del vuelo en formato 'YYYY-MM-DD'.
+        conn (sqlite3.Connection): Conexión a la base de datos.
+
+    Returns:
+        dict: Un diccionario con las opciones de vuelo disponibles.
+    """
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            """SELECT vuelo, hora, estado
+         FROM estado_vuelos
+         WHERE origen = ? AND destino = ? AND fecha = ?""",
+            (origen, destino, fecha),
+        )
+        resultados = cursor.fetchall()
+    finally:
+        cursor.close()
+
+    opciones = []
+    # Para cada vuelo, consultar los asientos reservados y calcular el primer asiento
+    # disponible en el rango 1..20. Si todos los asientos 1..20 están asignados,
+    # el vuelo se considera lleno y retornamos None en 'asiento'.
+    for vuelo, hora, estado in resultados:
+        c2 = conn.cursor()
+        try:
+            c2.execute(
+                "SELECT numero_asiento FROM reservas WHERE vuelo = ?",
+                (vuelo,),
+            )
+            usados = {row[0] for row in c2.fetchall()}
+        finally:
+            c2.close()
+
+        asiento_disponible = None
+        for n in range(1, 21):
+            if n not in usados:
+                asiento_disponible = n
+                break
+
+        opciones.append(
+            {
+                "numero_vuelo": vuelo,
+                "hora": hora,
+                "estado": estado,
+                "asiento": asiento_disponible,
+            }
+        )
+
+    return {"origen": origen, "destino": destino, "fecha": fecha, "opciones": opciones}
