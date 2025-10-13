@@ -1,3 +1,4 @@
+"""Utilidades para la gestión de vuelos y reservas."""
 from typing import Dict, Any
 import sqlite3
 import os

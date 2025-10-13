@@ -13,7 +13,7 @@ init-hook='import sys, os; sys.path = [p for p in sys.path if not ("site-package
 [MESSAGES CONTROL]
 # Disable specific messages. E0401 = import-error (ignore missing imports coming from virtualenvs
 # or from generated/packaged modules that pylint can't resolve).
-disable=E0401
+disable=E0401,W0718
 
 [REPORTS]
 output-format = colorized
