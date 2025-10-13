@@ -1,4 +1,4 @@
-import os
+"""Servicio MCP para consultas y gestiones sobre vuelos."""
 from typing import Dict, Any
 
 from utilidades import consulta_estado_vuelo, conectar_base_datos
@@ -12,6 +12,13 @@ mcp = FastMCP(
 
 @mcp.tool
 def estado_vuelo(numero_vuelo: str) -> Dict[str, Any]:
+    """
+    Consulta el estado de un vuelo dado su número.
+    Args:
+        numero_vuelo (str): El número del vuelo a consultar.
+    Returns:
+        dict: Un diccionario con la información del estado del vuelo.
+    """
     conn = None
     try:
         conn = conectar_base_datos()
