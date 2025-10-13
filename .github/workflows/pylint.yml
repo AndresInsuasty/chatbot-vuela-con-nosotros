@@ -20,4 +20,4 @@ jobs:
           cd mcp_vcn
           uv sync --frozen --no-cache --no-dev
           uv add pylint
-          uv pylint .
+          uv run pylint .
