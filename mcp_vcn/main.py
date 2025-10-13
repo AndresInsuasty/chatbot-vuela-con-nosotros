@@ -1,8 +1,8 @@
 """Servicio MCP para consultas y gestiones sobre vuelos."""
 from typing import Dict, Any
-
-from utilidades import consulta_estado_vuelo, conectar_base_datos
 from fastmcp import FastMCP
+from utilidades import consulta_estado_vuelo, conectar_base_datos
+
 
 mcp = FastMCP(
     name="vuela-con-nosotros-servicio",
