@@ -91,9 +91,6 @@ def send_message(message: str) -> str:
 		return str(output)
 
 
-# Chat-style UI using streamlit chat components
-st.header("Chat")
-
 # migrate old history to messages if present
 if "messages" not in st.session_state:
 	# Convert from older `history` format if available
