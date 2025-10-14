@@ -1,9 +1,9 @@
 """Simple Streamlit chat interface for VuelaConNosotros agent."""
 import os
 import json
-import streamlit as st
 import requests
 import time
+import streamlit as st
 
 
 st.set_page_config(page_title="Chat - VuelaConNosotros", page_icon="✈️")
