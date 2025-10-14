@@ -2,6 +2,7 @@ import os
 import streamlit as st
 import requests
 import json
+import time
 
 
 st.set_page_config(page_title="Chat - VuelaConNosotros", page_icon="✈️")
@@ -90,36 +91,56 @@ def send_message(message: str) -> str:
 		return str(output)
 
 
-def on_send() -> None:
-	"""Callback for the Enviar button: reads `st.session_state['input']`, sends it,
-	appends to history and clears the input safely from within the callback."""
-	user_msg = st.session_state.get("input", "").strip()
-	if not user_msg:
-		return
-	# append placeholder while waiting
-	st.session_state.history.append((user_msg, "..."))
-	# send to server
-	assistant_text = send_message(user_msg)
-	# replace the last history item placeholder
-	st.session_state.history[-1] = (user_msg, assistant_text)
-	# clear input safely inside callback
-	st.session_state["input"] = ""
+# Chat-style UI using streamlit chat components
+st.header("Chat")
+
+# migrate old history to messages if present
+if "messages" not in st.session_state:
+	# Convert from older `history` format if available
+	if "history" in st.session_state and isinstance(st.session_state.history, list):
+		st.session_state.messages = []
+		for user_msg, assistant_msg in st.session_state.history:
+			st.session_state.messages.append({"role": "user", "content": user_msg})
+			st.session_state.messages.append({"role": "assistant", "content": assistant_msg})
+	else:
+		st.session_state.messages = []
 
 
-st.subheader("Chat")
+# Display chat messages from history on app rerun
+for message in st.session_state.messages:
+	with st.chat_message(message["role"]):
+		st.markdown(message["content"])
 
-col1, col2 = st.columns([4, 1])
 
-with col1:
-	st.text_area("Escribe tu mensaje", height=120, key="input")
-with col2:
-	st.button("Enviar", on_click=on_send)
+# Accept user input using chat_input
+prompt = st.chat_input("Escribe tu mensaje...")
+if prompt:
+	# Add user message to chat history and display immediately
+	st.session_state.messages.append({"role": "user", "content": prompt})
+	with st.chat_message("user"):
+		st.markdown(prompt)
 
-# Render history
-for user_msg, assistant_msg in st.session_state.history:
-	st.markdown(f"**Tú:** {user_msg}")
-	# Only show assistant 'output' text
-	st.markdown(f"**Asistente:** {assistant_msg}")
+	# Send to backend and get the assistant output (only 'output' is shown)
+	assistant_text = send_message(prompt)
+
+	# Stream the assistant response into the chat
+	def response_generator(text: str):
+		# yield small chunks to emulate streaming; adjust sleep for desired speed
+		for word in str(text).split():
+			yield word + " "
+			time.sleep(0.02)
+
+	with st.chat_message("assistant"):
+		# Use write_stream to render the streaming response
+		try:
+			response = st.write_stream(response_generator(assistant_text))
+		except Exception:
+			# Fallback: just write the full text
+			st.markdown(assistant_text)
+			response = assistant_text
+
+	# Add assistant response to history
+	st.session_state.messages.append({"role": "assistant", "content": assistant_text})
 
 st.markdown("---")
 st.caption("Solo se muestra al usuario el campo 'output' de la respuesta del agente.")
