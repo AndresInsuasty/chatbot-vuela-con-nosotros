@@ -106,12 +106,15 @@ async def chat_endpoint(payload: ChatRequest) -> Dict[str, Any]:
         except Exception:
             return {"repr": repr(item)}
 
-    raw_summary = [summarize_model_response(m) for m in getattr(result, "raw_responses", [])]
+    raw_summary = [
+        summarize_model_response(m) for m in getattr(result, "raw_responses", [])
+    ]
     new_items_summary = [summarize_item(i) for i in getattr(result, "new_items", [])]
 
     summary = {
         "output": result.final_output,
-        "last_agent": getattr(result, "_last_agent", None) and getattr(result._last_agent, "name", repr(result._last_agent)),
+        "last_agent": getattr(result, "_last_agent", None)
+        and getattr(result._last_agent, "name", repr(result._last_agent)),
         "last_response_id": getattr(result, "last_response_id", None),
         "raw_responses": raw_summary,
         "new_items": new_items_summary,
