@@ -37,7 +37,7 @@ async def main() -> None:
             model_settings=ModelSettings(tool_choice="required"),
         )
 
-        result = await Runner.run(agent, "Que puedes hacer?", session=session)
+        result = await Runner.run(agent, "me ayudas consultando el estado del vuelo PSO-ASU-101?", session=session)
         print(result.final_output)
 
 asyncio.run(main())

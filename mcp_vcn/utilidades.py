@@ -216,3 +216,45 @@ def eliminar_reserva(
         return {"error": str(e)}
     finally:
         cursor.close()
+
+def verificar_reserva(
+    vuelo: str, id_pasajero: str, conn: sqlite3.Connection
+) -> Dict[str, Any]:
+    """
+    Verifica si un pasajero tiene una reserva en un vuelo específico.
+
+    Args:
+        vuelo (str): El número del vuelo.
+        id_pasajero (str): El ID del pasajero.
+        conn (sqlite3.Connection): Conexión a la base de datos.
+
+    Returns:
+        dict: Un diccionario con el resultado de la verificación de la reserva.
+    """
+    cursor = conn.cursor()
+    try:
+        cursor.execute(
+            """SELECT numero_asiento 
+            FROM reservas 
+            WHERE vuelo = ? 
+            AND id_pasajero = ?""",
+            (vuelo, id_pasajero),
+        )
+        resultado = cursor.fetchone()
+    finally:
+        cursor.close()
+
+    if resultado:
+        numero_asiento = resultado[0]
+        return {
+            "vuelo": vuelo,
+            "id_pasajero": id_pasajero,
+            "numero_asiento": numero_asiento,
+            "estado": "Reserva encontrada",
+        }
+    else:
+        return {
+            "vuelo": vuelo,
+            "id_pasajero": id_pasajero,
+            "estado": "No se encontró reserva",
+        }   

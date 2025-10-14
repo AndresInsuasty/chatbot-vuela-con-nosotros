@@ -19,6 +19,7 @@ from utilidades import (
     consultar_opciones_vuelo,
     reservar_asiento,
     eliminar_reserva,
+    verificar_reserva
 )
 
 
@@ -164,6 +165,32 @@ def eliminar_reserva_vuelo(
         if conn:
             conn.close()
 
+@mcp.tool
+def verificar_reserva_vuelo(vuelo: str, id_pasajero: str) -> Dict[str, Any]:
+    """Verificar si un pasajero tiene una reserva en un vuelo específico.
+
+    Llama a `verificar_reserva` en `utilidades` para comprobar si existe
+    una reserva en la tabla `reservas` que coincida con los parámetros.
+    Devuelve el resultado de la operación o un diccionario con ``error``
+    si ocurre alguna excepción.
+
+    Args:
+        vuelo (str): Identificador del vuelo a verificar (p. ej. "PSO-ASU-101").
+        id_pasajero (str): Identificador del pasajero cuya reserva se verificará.
+
+    Returns:
+        Dict[str, Any]: Resultado de la verificación. En caso de error,
+            retorna: {"error": "mensaje"}.
+    """
+    conn = None
+    try:
+        conn = conectar_base_datos()
+        return verificar_reserva(vuelo, id_pasajero, conn)
+    except Exception as e:
+        return {"error": str(e)}
+    finally:
+        if conn:
+            conn.close()
 
 if __name__ == "__main__":
     mcp.run(transport="http", port=8000)
