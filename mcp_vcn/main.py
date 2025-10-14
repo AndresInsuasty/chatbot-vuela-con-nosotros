@@ -193,4 +193,6 @@ def verificar_reserva_vuelo(vuelo: str, id_pasajero: str) -> Dict[str, Any]:
             conn.close()
 
 if __name__ == "__main__":
-    mcp.run(transport="http", port=8000)
+    # Bind to 0.0.0.0 so the MCP server is reachable from other containers
+    # in the docker-compose network (using the service name `mcp_vcn`).
+    mcp.run(transport="http", host="0.0.0.0", port=8000)

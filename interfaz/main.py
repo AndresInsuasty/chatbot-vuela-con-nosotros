@@ -19,7 +19,7 @@ if not DEFAULT_CHAT_URL:
 		DEFAULT_CHAT_URL = None
 
 if not DEFAULT_CHAT_URL:
-	DEFAULT_CHAT_URL = "http://localhost:8001/chat"
+	DEFAULT_CHAT_URL = os.getenv("URL_CHAT", "http://localhost:8001/chat")
 
 with st.sidebar:
 	st.header("Configuración")

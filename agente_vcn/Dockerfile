@@ -12,5 +12,4 @@ RUN apt-get update && apt-get install -y \
 COPY . ./
 RUN uv sync --frozen --no-cache --no-dev
 EXPOSE 8001
-
-CMD ["uv", "run", "uvicorn", "main:app", "--port", "8001"]
+CMD ["uv", "run", "fastapi", "run", "main.py", "--host", "0.0.0.0", "--port", "8001"]

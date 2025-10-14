@@ -41,7 +41,7 @@ async def startup_event() -> None:
     server = MCPServerStreamableHttp(
         name="Streamable HTTP Python Server",
         params={
-            "url": os.getenv("MCP_SERVER_URL", "http://127.0.0.1:8000/mcp"),
+            "url": os.getenv("URL_MCP", "http://0.0.0.0:8000/mcp"),
             "timeout": 10,
         },
         cache_tools_list=True,
@@ -118,10 +118,3 @@ async def chat_endpoint(payload: ChatRequest) -> Dict[str, Any]:
     }
 
     return summary
-
-
-if __name__ == "__main__":
-    # Simple runner for local debugging. Use `uvicorn agente_vcn.main:app --reload` in production.
-    import uvicorn
-
-    uvicorn.run("agente_vcn.main:app", host="127.0.0.1", port=8001, log_level="info")

@@ -17,9 +17,6 @@ dist/
 # Pytest
 .pytest_cache/
 
-# Environment variables
-.env
-
 # VSCode settings
 .vscode/
 

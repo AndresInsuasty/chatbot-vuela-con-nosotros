@@ -19,11 +19,9 @@ services:
     container_name: agente_vcn
     ports:
       - "8001:8001"
-    env_file:
-      - ./agente_vcn/.env
     environment:
-      # Variables de ejemplo que pueden sobreescribirse desde el archivo .env
-      - AGENTE_OPTION=default_value
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - URL_MCP=${URL_MCP}
     networks:
       - vcn_network
     depends_on:
@@ -37,6 +35,8 @@ services:
     container_name: interfaz_vcn
     ports:
       - "8501:8501"
+    environment:
+      - URL_CHAT=${URL_CHAT}
     networks:
       - vcn_network
     depends_on:
