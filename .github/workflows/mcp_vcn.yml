@@ -1,0 +1,23 @@
+name: mcp_vcn
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12"]
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install uv and set the Python version
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install and run pylint inside mcp_vcn
+        run: |
+          cd mcp_vcn
+          uv sync --frozen --no-cache --no-dev
+          uv add pylint
+          uv run pylint main.py sbx.py utilidades.py --ignore-patterns=".venv,venv,__pycache__" --rcfile="../.pylintrc"
