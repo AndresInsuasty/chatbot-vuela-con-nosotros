@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  mcp_vcn:
+    build:
+      context: ./mcp_vcn
+      dockerfile: Dockerfile
+    container_name: mcp_vcn
+    ports:
+      - "8000:8000"
+    networks:
+      - vcn_network
+    restart: unless-stopped
+
+  agente_vcn:
+    build:
+      context: ./agente_vcn
+      dockerfile: Dockerfile
+    container_name: agente_vcn
+    ports:
+      - "8001:8001"
+    env_file:
+      - ./agente_vcn/.env
+    environment:
+      # Variables de ejemplo que pueden sobreescribirse desde el archivo .env
+      - AGENTE_OPTION=default_value
+    networks:
+      - vcn_network
+    depends_on:
+      - mcp_vcn
+    restart: unless-stopped
+
+  interfaz:
+    build:
+      context: ./interfaz
+      dockerfile: Dockerfile
+    container_name: interfaz_vcn
+    ports:
+      - "8501:8501"
+    networks:
+      - vcn_network
+    depends_on:
+      - agente_vcn
+    restart: unless-stopped
+
+networks:
+  vcn_network:
+    driver: bridge
