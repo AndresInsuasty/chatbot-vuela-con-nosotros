@@ -1,7 +1,8 @@
+"""Simple Streamlit chat interface for VuelaConNosotros agent."""
 import os
+import json
 import streamlit as st
 import requests
-import json
 import time
 
 
@@ -9,11 +10,9 @@ st.set_page_config(page_title="Chat - VuelaConNosotros", page_icon="✈️")
 
 st.title("Asistente VuelaConNosotros — Chat")
 
-# Config: prefer environment variable, then streamlit secrets (safely), then fallback
 DEFAULT_CHAT_URL = os.environ.get("CHAT_URL")
 if not DEFAULT_CHAT_URL:
     try:
-        # st.secrets may raise StreamlitSecretNotFoundError if no secrets.toml exists
         DEFAULT_CHAT_URL = st.secrets.get("CHAT_URL")
     except Exception:
         DEFAULT_CHAT_URL = None
@@ -122,17 +121,22 @@ for message in st.session_state.messages:
 # Accept user input using chat_input
 prompt = st.chat_input("Escribe tu mensaje...")
 if prompt:
-    # Add user message to chat history and display immediately
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # Send to backend and get the assistant output (only 'output' is shown)
     assistant_text = send_message(prompt)
 
     # Stream the assistant response into the chat
     def response_generator(text: str):
-        # yield small chunks to emulate streaming; adjust sleep for desired speed
+        """Yield text one word at a time with a slight delay to simulate streaming.
+        
+        Args:
+			text (str): The full text to stream.
+		Yields:
+			str: The next word with a trailing space.
+		"""
+        
         for word in str(text).split():
             yield word + " "
             time.sleep(0.02)
