@@ -3,6 +3,18 @@
 
 Chatbot avanzado para asistencia a pasajeros ante incidencias de vuelo
 
+## Demostración en video
+
+Puedes ver una demostración rápida del funcionamiento del sistema en el siguiente video:
+
+<p align="center">
+	<a href="https://youtu.be/KGL0nZnaZ8o" target="_blank">
+		<img src="https://img.youtube.com/vi/KGL0nZnaZ8o/0.jpg" alt="Demo video" width="600"/>
+	</a>
+</p>
+
+
+
 ---
 
 <p align="center">
@@ -115,7 +127,6 @@ Hay un archivo ejemplo `.env.example` en la raíz con valores por defecto.
 - Implementar healthchecks y dependencias en `docker-compose` para readiness.
 
 ---
-
 ## Contacto y licencia
 
 Este repositorio es una demo; la licencia está en `LICENSE`.
