@@ -9,7 +9,7 @@ Puedes ver una demostración rápida del funcionamiento del sistema en el siguie
 
 <p align="center">
 	<a href="https://youtu.be/KGL0nZnaZ8o" target="_blank">
-		<img src="https://img.youtube.com/vi/KGL0nZnaZ8o/0.jpg" alt="Demo video" width="600"/>
+		<img src="img/portada.jpg" alt="Demo video" width="600"/>
 	</a>
 </p>
 
