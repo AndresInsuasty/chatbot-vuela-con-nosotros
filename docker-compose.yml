@@ -11,6 +11,8 @@ services:
     networks:
       - vcn_network
     restart: unless-stopped
+    # Nota: healthcheck removido para simplificar el arranque. El servicio
+    # será iniciado primero, pero no se esperará a que esté 'listo' internamente.
 
   agente_vcn:
     build:
