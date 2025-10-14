@@ -1,8 +1,8 @@
 """Simple Streamlit chat interface for VuelaConNosotros agent."""
 import os
 import json
-import requests
 import time
+import requests
 import streamlit as st
 
 
@@ -136,7 +136,6 @@ if prompt:
 		Yields:
 			str: The next word with a trailing space.
 		"""
-        
         for word in str(text).split():
             yield word + " "
             time.sleep(0.02)
