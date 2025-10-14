@@ -30,6 +30,7 @@ with open("prompt.txt", "r", encoding="utf-8") as f:
 
 
 class ChatRequest(BaseModel):
+    """Request body for /chat endpoint."""
     message: str
 
 
