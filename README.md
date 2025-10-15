@@ -18,7 +18,7 @@ Puedes ver una demostración rápida del funcionamiento del sistema en el siguie
 ---
 
 <p align="center">
-	<img src="img/arquitectura.png" alt="Diagrama de arquitectura" width="600"/>
+	<img src="img/arquitectura.jpg" alt="Diagrama de arquitectura" width="600"/>
 </p>
 
 ---
