@@ -66,9 +66,9 @@ El agente detecta una cancelación y contacta al usuario:
 
 > **Agente:** "Hola, lamentamos informarte que tu vuelo ha sido cancelado. ¿Te gustaría ver opciones alternativas?"
 > **Usuario:** "¿Por qué se canceló?"
-> **Agente:** "El vuelo fue cancelado por condiciones climáticas. ¿Te ayudo a encontrar una nueva reserva?"
+> **Agente:** "El vuelo fue cancelado por condiciones climáticas, es una situación ajena a nosotros. Pero no te preocupes ¿Te ayudo a encontrar una nueva reserva?"
 > **Usuario:** "Sí, por favor."
-> **Agente:** "He encontrado dos opciones para ti: vuelo a las 18:00 o a las 20:30. ¿Cuál prefieres?"
+> **Agente:** "Genial! He encontrado estas opciones para ti: vuelo a las 18:00 o a las 20:30. ¿Cuál prefieres? Tambien estas en el derecho de pedir un reembolso"
 
 El agente mantiene el foco, responde dudas y guía al usuario hasta la resolución.
 
